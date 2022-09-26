@@ -5,6 +5,7 @@ import dk.matzon.proto.crud.model.exceptions.CarAlreadyExistsException;
 import dk.matzon.proto.crud.model.exceptions.CarNotFoundException;
 
 import javax.inject.Singleton;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -17,6 +18,7 @@ public class CarService {
         this.carRepository = carRepository;
     }
 
+    @Transactional
     public Car addCar(final Car _car) {
 
         if (carRepository.existsById(_car.getVin())) {
@@ -37,6 +39,7 @@ public class CarService {
                 .orElseThrow(() -> new CarNotFoundException(_vin));
     }
 
+    @Transactional
     public Car updateCar(String vin, final Car _car) {
         return carRepository.findById(vin)
                 .map(car -> {
@@ -48,6 +51,7 @@ public class CarService {
                 });
     }
 
+    @Transactional
     public void deleteCar(final String _vin) {
         carRepository.findById(_vin)
                 .map((car) -> {

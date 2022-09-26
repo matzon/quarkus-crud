@@ -42,7 +42,7 @@ public class CarController {
 
     @PUT
     @Path("/{vin}")
-    public Response update(@PathParam("vin") String vin, Car car) throws URISyntaxException {
+    public Response update(@PathParam("vin") String vin, @Valid Car car) throws URISyntaxException {
         boolean existingCar = !StringUtils.isEmpty(car.getVin());
         Car updatedCar = carService.updateCar(vin, car);
 
@@ -54,9 +54,9 @@ public class CarController {
     }
 
     @DELETE
+    @Path("/{vin}")
     public Response delete(@PathParam("vin") String vin) {
         carService.deleteCar(vin);
         return Response.noContent().build();
     }
-
 }
